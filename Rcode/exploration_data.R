@@ -1,6 +1,6 @@
 library(tidyverse)
 
-datos_raw <- read_csv('data.csv')
+datos_raw <- read_csv('./data/raw_answers.csv')
 
 
 names(datos_raw)
