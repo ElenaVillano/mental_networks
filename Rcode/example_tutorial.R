@@ -1,9 +1,10 @@
+rm(list=ls())
 library(tidyverse)
 
 FullData <- read.csv("./data/qs.csv", stringsAsFactors = FALSE)
 # Load packages:
-library("dplyr")
-library("tidyr")
+#library("dplyr")
+#library("tidyr")
 # Frequency at baseline:
 Data <- FullData %>%
   filter(EPOCH == "BASELINE",
