@@ -1,67 +1,6 @@
 rm(list=ls())
 library(tidyverse)
 
-FullData <- read.csv("data/qs.csv", stringsAsFactors = FALSE)
-# Load packages:
-library("dplyr")
-library("tidyr")
-# Frequency at baseline:
-Data <- FullData %>%
-  filter(EPOCH == "BASELINE",
-         grepl("^PSSR\\d+A$",QSTESTCD)) %>%
-  select(USUBJID,QSTEST,QSORRES) %>%
-  spread(QSTEST, QSORRES) %>%
-  select(-USUBJID) %>%
-  mutate_each(funs(replace(.,.=="NOT ANSWERED",NA))) %>%
-  mutate_each(funs(ordered(.,c("NOT AT ALL","ONCE A WEEK",
-                               "2-4 TIMES PER WEEK/HALF THE TIME",
-                               "5 OR MORE TIMES PER WEEK/ALMOST ALWAYS"))))
-names(Data) <- seq_len(ncol(Data))
-
-colnames(Data) <- paste("qu_", seq(1:17), sep="")
-head(Data)
-summary(Data)
-
-Data <- Data %>% 
-  drop_na() %>% 
-  recode_factor("NOT AT ALL"='1',"ONCE A WEEK"='2',
-         "2-4 TIMES PER WEEK/HALF THE TIME"='3',
-         "5 OR MORE TIMES PER WEEK/ALMOST ALWAYS"='4')
-
-Data %>% 
-  mutate_all(funs(replace("NOT AT ALL",1)))
-
-data <- as.factor(Data)
-
-levels(Data$qu_1) <- c(1:4)
-levels(Data$qu_2) <- c(1:4)
-levels(Data$qu_3) <- c(1:4)
-levels(Data$qu_4) <- c(1:4)
-levels(Data$qu_5) <- c(1:4)
-levels(Data$qu_6) <- c(1:4)
-levels(Data$qu_7) <- c(1:4)
-levels(Data$qu_8) <- c(1:4)
-levels(Data$qu_9) <- c(1:4)
-levels(Data$qu_10) <- c(1:4)
-levels(Data$qu_11) <- c(1:4)
-levels(Data$qu_12) <- c(1:4)
-levels(Data$qu_13) <- c(1:4)
-levels(Data$qu_14) <- c(1:4)
-levels(Data$qu_15) <- c(1:4)
-levels(Data$qu_16) <- c(1:4)
-levels(Data$qu_17) <- c(1:4)
-
-
-Data
-# paqueteria de ellos
-library("bootnet")
-
-Network <- estimateNetwork(Data,
-                            default = "EBICglasso")
-
-
-
-
 library("psychTools")
 data(bfi)
 bfiSub <- bfi[1:250,1:25]
