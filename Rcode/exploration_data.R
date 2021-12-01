@@ -102,7 +102,8 @@ layout(matrix(c(1:3),ncol=3))
 hist(datos_raw_riesgo$r5)
 hist(datos_raw_riesgo$r6)
 hist(datos_raw_riesgo$r7)
-
+# la r5 y la r6 tienen un comportamiento muy 
+# similar
 
 ### Distanciamiento ###
 layout(matrix(c(1:8),ncol=2))
@@ -153,7 +154,7 @@ Network <- estimateNetwork(pri_set, default = "EBICglasso",
 
 # Centrality indices:
 library("qgraph")
-centralityPlot(Network)
+centralityPlot(Network, include = c("Strength", "Betweenness", "Closeness"))
 
 # Estimated network:
 plot(Network, layout = 'spring')

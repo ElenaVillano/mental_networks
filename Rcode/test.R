@@ -19,37 +19,34 @@ bfiSub <- bfi[,1:25]
 # vemos la base
 bfiSub
 
-# estimamos una red con ggmModSelect
-Network <- estimateNetwork(bfiSub, default = "ggmModSelect", 
-                           corMethod = "cor",stepwise = FALSE)
-
-# hacemos el boostrap, 
-boots <- bootnet(Network, nBoots = 100)
-
-# umbral de red
-Network_inclusion <- bootInclude(boots)
-
-# plot
-plot(Network_inclusion)
-
-############# Otro análisis #####################
-
 # red con lasso
 # Estimate network:
 Network <- estimateNetwork(bfiSub, default = "EBICglasso",
                            threshold=TRUE)
 
-# medida de centralidad
-centralityPlot(Network)
-
 # Estimated network:
-plot(Network, layout = 'spring')
+plot(Network, layout = 'spring', labels=TRUE)
+
+# medida de centralidad
+centralityPlot(Network, include = c("Strength", "Betweenness", "Closeness"))
 
 ### Non-parametric bootstrap ###
 # Bootstrap 100 values, using 8 cores:
+
 Results1 <- bootnet(Network, nBoots = 100, nCores = 1)
+Results1
+
 # Plot bootstrapped edge CIs:
 plot(Results1, labels = FALSE, order = "sample")
+
+### Case-drop bootstrap ###
+# Bootstrap 1000 values, using 8 cores:
+Results2 <- bootnet(Network, nBoots = 100, nCores = 1,
+                    type = "case")
+
+plot(Results2)
+
+
 # Plot significant differences (alpha = 0.05) of edges:
 plot(Results1, "edge", plot = "difference",onlyNonZero = TRUE,
      order = "sample")
@@ -57,10 +54,7 @@ plot(Results1, "edge", plot = "difference",onlyNonZero = TRUE,
 plot(Results1, "strength", plot = "difference")
 # Test for difference in strength between node "A1" and "C2":
 differenceTest(Results1, "A1", "C2", "strength")
-### Case-drop bootstrap ###
-# Bootstrap 1000 values, using 8 cores:
-Results2 <- bootnet(Network, nBoots = 100, nCores = 1,
-                    type = "case")
+
 # Plot centrality stability:
 #plot(Results2)
 # Compute CS-coefficients:

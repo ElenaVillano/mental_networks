@@ -1,6 +1,7 @@
 rm(list=ls())
-library(tidyverse)
 
+library(tidyverse)
+setwd("~/Documents/mental_networks")
 library("psychTools")
 data(bfi)
 bfiSub <- bfi[1:250,1:25]
@@ -23,14 +24,14 @@ library("psychTools")
 data(bfi)
 bfiSub <- bfi[,1:25]
 # Estimate network:
-Network <- estimateNetwork(bfiSub, default = "EBICglasso",
+Network1 <- estimateNetwork(bfiSub, default = "EBICglasso",
                            threshold=TRUE)
 # Centrality indices:
 library("qgraph")
 centralityPlot(Network)
 ## Not run:
 # Estimated network:
-plot(Network, layout = 'spring')
+plot(Network1, layout = 'spring')
 ### Non-parametric bootstrap ###
 # Bootstrap 1000 values, using 8 cores:
 Results1 <- bootnet(Network, nBoots = 100, nCores = 1)
