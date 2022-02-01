@@ -30,7 +30,7 @@ names(respuestas) <- c('st1','st2','st3','st4','av5',
 # 1 conjunto de preguntas
 pcl5_set <- respuestas[,1:17]
 dean_set <- respuestas[,18:33]
-todo_set <- respuestas[,1:33]
+todo_set <- respuestas[,1:32]
 
 
 
@@ -64,7 +64,6 @@ qgraph(net_todo,
        height = 8, width = 8)
 
 # Medidas de centralidad para la red
-
 pdf(file='Rcode/nets/centrality_nets.pdf', width = 8, height = 8, onefile = T)
 centralityPlot(pcl5_net, include = c("Betweenness", "Closeness", "Strength"),
                orderBy = 'Strength')
@@ -77,26 +76,56 @@ dev.off()
 
 ########## A. intervalos de confianza para los pesos de las aristas
 # Bootstrap 1000 values
-boot_IC_ar <- bootnet(Network1, nBoots = 1000, nCores = 1)
+boot_IC_pcl5 <- bootnet(pcl5_net, nBoots = 1000, nCores = 1)
+boot_IC_dean <- bootnet(dean_net, nBoots = 1000, nCores = 1)
+boot_IC_todo <- bootnet(todo_net, nBoots = 1000, nCores = 1)
 
-summary(boot_IC_ar)
+summary(boot_IC_pcl5)
+summary(boot_IC_dean)
+summary(boot_IC_todo)
 
 # Plot bootstrapped edge CIs:
-plot(boot_IC_ar, labels = FALSE, order = "sample")
+pdf(file='Rcode/nets/interval_boots.pdf', width = 10, height = 8, onefile = T)
+plot(boot_IC_pcl5, labels = FALSE, order = "sample")
+plot(boot_IC_dean, labels = FALSE, order = "sample")
+plot(boot_IC_todo, labels = FALSE, order = "sample")
+dev.off()
 
 ######### B. Bootstrap de subconjuntos para ver la estabilidad de las medidas de centralidad
 
-boot_cen_estab <- bootnet(Network1, nBoots = 1000, type = 'case')
+boot_cen_pcl5 <- bootnet(pcl5_net, nBoots = 1000, type = 'case',
+                         statistics= c("strength", "closeness","betweenness"))
+boot_cen_dean <- bootnet(dean_net, nBoots = 1000, type = 'case',
+                         statistics= c("strength", "closeness","betweenness"))
+boot_cen_todo <- bootnet(todo_net, nBoots = 1000, type = 'case',
+                         statistics= c("strength", "closeness","betweenness"))
 
-plot(boot_cen_estab, include = c("Betweenness", "Closeness", "Strength"))
+pdf(file='Rcode/nets/estability.pdf', width = 10, height = 8, onefile = T)
+plot(boot_cen_pcl5, statistics = c("strength", "closeness","betweenness"))
+plot(boot_cen_dean, statistics = c("strength", "closeness","betweenness"))
+plot(boot_cen_todo, statistics = c("strength", "closeness","betweenness"))
+dev.off()
 
-corStability(boot_cen_estab)
+corStability(boot_cen_pcl5)
+corStability(boot_cen_dean)
+corStability(boot_cen_todo)
 
 ######### C. Test for significan differences
 
-differenceTest(boot_IC_ar, 3, 17,'strength')
+differenceTest(boot_IC_pcl5, 3, 17,'strength')
 
-plot(boot_IC_ar, 'edge', plot = "difference", onlyNonZero = TRUE, order='sample')
+pdf(file='Rcode/nets/signifi.pdf', width = 9, height = 9, onefile = T)
+plot(boot_IC_pcl5, 'edge', plot = "difference", onlyNonZero = TRUE, order='sample')
+plot(boot_IC_dean, 'edge', plot = "difference", onlyNonZero = TRUE, order='sample')
+plot(boot_IC_todo, 'edge', plot = "difference", onlyNonZero = TRUE, order='sample')
+dev.off()
 
-plot(boot_IC_ar, "strength")
+pdf(file='Rcode/nets/signif_2i.pdf', width = 9, height = 9, onefile = T)
 
+plot(boot_IC_pcl5, "strength")
+plot(boot_IC_dean, "strength")
+plot(boot_IC_todo, "strength")
+dev.off()
+
+#save.image(file='myEnvironment.RData')
+load(file='myEnvironment.RData')

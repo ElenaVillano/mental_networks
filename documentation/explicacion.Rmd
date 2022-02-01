@@ -1,18 +1,32 @@
 ---
-title: "R Notebook"
-output: html_notebook
+title: "Reporte de trabajo: Análisis de Redes con datos del Tamizaje para la detección de riesgos a la Salud Mental por Covid-19"
+author: "Por Elena Villalobos Nolasco"
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
-Redes psicológicas consisten en nodos que representan las variables observadas que están interconectados por aristas que representan las relaciones estadísticas. 
+El presente documento tiene los avances realizados en el proyecto de Análisis de Redes como alternativa de análisis para estudiar psicopatologías y tiene como base principal el artículo: *Estimating psychological networks and their addecuacy: A tutorial paper. (2018) Epskamp, S., Borsboom, D. & Fried, E.*.
 
-Este análisis tiene dos pasos involucrados 
+El documento se organiza de la siguiente manera:
 
-1. Estimar el modelo estadístico sobre los datos, que se refiere a la red de pesos entre las variables observadas. 
-2. Analizar los pesos a partir de las medidas desarrolladas en teoría de grafos. 
+1. Conceptos básicos para entender el análisis de redes. 
+2. Descripción de cómo leer los gráficos principales para estudiar redes. 
+3. Resultados preliminares 
 
-Las redes psicológicas difieren estructuralmente de las redes normales porque los nodos representan entidades (aeropuertos, personas, etc), y las conexiones son observadas y se conocen (numero de vuelos entre aeropuestos, amistades, etc). En las redes psicológicas, la fuerza de la conexión entre dos nodos es un parámetro estimado a partir de los datos, entre más datos mejor estimación. 
 
-Ellos simularon una red con un modelo gráfico gausiando, donde los nodos representan las variables observadas y las aristas representan coeficientes de correlación parcial entre variables, condicionadas sobre las otras variables observadas. Una manera de evaluar la importancia de nodos en esta red es computando las medidas de centralidad de la estrutura de la red, estas son: 
+# 1. Conceptos básicos para entender el análisis de redes
+
+El análisis de redes, basado en la teoría de grafos, tiene como objetivo estudiar las interrelaciones existentes entre entidades. En el análisis de redes los nodos representan entidades (aeropuestos, personas, etc.), y las conexiones, también conocidas como aristas, son observadas, medidas y conocidas (número de vuelos entre aeropuestos, amistades, etc.). 
+
+De manera similar pero estructuralmente diferente al análisis de redes, las redes psicológicas consisten en nodos que representan las variables observadas que están interconectados por aristas que representan relaciones estadísticas. Otra manera de decirlo, es que las conexiones entre los nodos son parámetros que se estiman a partir de los datos, por lo que una red mejor estimada será aquella que tiene más datos. 
+
+El análisis de redes psicológicas tiene dos pasos involucrados:
+
+1. Estimar el modelo estadístico sobre los datos, es decir, la estimación de la red con sus pesos correspondientes entre las variables observadas. 
+2. Analizar si las estimaciones de los pesos son adecuadas, a partir de medidas desarrolladas en teoría de grafos. 
+
+Ellos simularon una red con un modelo gráfico gausiano, donde los nodos representan las variables observadas y las aristas representan coeficientes de correlación parcial entre variables, condicionadas sobre las otras variables observadas. Una manera de evaluar la importancia de nodos en esta red es computando las medidas de centralidad de la estrutura de la red, estas son: 
 
 - Fuerza del nodo: que tan bien el nodo es **directamente** conectado con otros nodos.
 - Closeness: cuantificar que tan bien el nodo es indirectamente conectado a otros nodos. 
