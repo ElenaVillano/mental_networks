@@ -1,33 +1,25 @@
+# Example code from package bootnet documentation (2020)
+# Tested in september, 2021
+
+# Clean workspace
 rm(list=ls())
 
-library(tidyverse)
+# Packages
+library("tidyverse")
+library("psychTools")
+library("qgraph")
+
+# Setting working directory
 setwd("~/Documents/mental_networks")
-library("psychTools")
-data(bfi)
-bfiSub <- bfi[1:250,1:25]
 
-
-
-Network <- estimateNetwork(bfiSub, default = "ggmModSelect", 
-                           corMethod = "cor",stepwise = FALSE)
-
-boots <- bootnet(Network, nBoots = 10)
-
-Network_inclusion <- bootInclude(boots)
-
-layout(1)
-plot(Network_inclusion)
-
-
+##############################################################
 # BFI Extraversion data from psychTools package:
-library("psychTools")
 data(bfi)
 bfiSub <- bfi[,1:25]
 # Estimate network:
 Network1 <- estimateNetwork(bfiSub, default = "EBICglasso",
                            threshold=TRUE)
 # Centrality indices:
-library("qgraph")
 centralityPlot(Network)
 ## Not run:
 # Estimated network:
@@ -54,11 +46,8 @@ plot(Results2)
 corStability(Results2)
 ## End(Not run)
 
-
+####################################################################
 # BFI Extraversion data from psychTools package:
-library("psychTools")
-data(bfi)
-bfiSub <- bfi[,1:25]
 # Estimate network:
 Network <- estimateNetwork(bfiSub, default = "EBICglasso")
 ## Not run:
@@ -67,7 +56,6 @@ print(Network)
 # Estimated network:
 plot(Network, layout = 'spring')
 # Centrality indices:
-library("qgraph")
 centralityPlot(Network)
 # BIC model selection:
 Network_BIC <- estimateNetwork(bfiSub, default = "EBICglasso", tuning = 0)
@@ -75,7 +63,7 @@ Network_BIC <- estimateNetwork(bfiSub, default = "EBICglasso", tuning = 0)
 Network_BIC <- estimateNetwork(bfiSub, default = "IsingFit")
 ## End(Not run)
 
-
+####################################################################
 # 5-node GGM chain graph:
 trueNetwork <- genGGM(5)
 # Simulate:
@@ -84,15 +72,7 @@ Res <- netSimulator(trueNetwork, nReps = 10)
 Res
 # Plot:
 plot(Res)
-## Not run:
-library("bootnet")
-# BFI example:
-# Load data:
-library("psychTools")
-data(bfi)
-bfiData <- bfi[,1:25]
 # Estimate a network structure, with parameters refitted without LASSO regularization:
-library("qgraph")
 Network <- EBICglasso(cor_auto(bfiData), nrow(bfiData), refit = TRUE)
 # Simulate 100 repititions in 8 cores under different sampling levels:
 Sim1 <- netSimulator(Network,
