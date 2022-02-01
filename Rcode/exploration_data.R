@@ -1,28 +1,24 @@
+# Some minor graphics for data exploration
+# By Elena Villalobos, Enero 2022
+
+# Clean workspace
 rm(list=ls())
 
+# Packages
 library(tidyverse)
-setwd("~/Documents/mental_networks")
-datos_raw <- read_csv('data/raw_answers.csv')
 
+# Setting working directory
+setwd("~/Documents/mental_networks")
+
+# Data
 datos_raw_riesgo <- read_csv('data/BDCOVIDNivelRiesgo.csv')
 head(datos_raw_riesgo)
-#summary(datos_raw_riesgo)
-#dim(datos_raw_riesgo)
+summary(datos_raw_riesgo)
+dim(datos_raw_riesgo)
 options(tibble.print_max = 109)
-# número de pregunta y pregunta del cuestionario raw_answers
-#preguntas <- tibble(seq(1,109),
-#                    names(datos_raw))
-
-#summary(datos_raw)
-#head(datos_raw)
-#dim(datos_raw)
-
-#colnames(datos_raw) <- paste("qu_", seq(1:109), sep="")
-#datos_raw
 datos_raw_riesgo[10]
 
-# preguntar por nueva base de datos, cuáles preguntas están abarcando
-
+# Some colors
 colores <- c('#38A6A5','#99C935','#EDAD08','#ee4d5b','royalblue','aquamarine3','turquoise3')
 
 # perfil
@@ -52,7 +48,6 @@ datos_raw_riesgo %>%
   count(Entidad_federativa) %>% 
   ggplot(aes(x=Entidad_federativa, y=n)) +
   geom_bar(stat='identity') 
-
 
 datos_raw_riesgo %>% 
   count(Está_diagnosticadao_con_diabetes,
@@ -140,32 +135,3 @@ barplot(prop.table(table(datos_raw_riesgo$r61)))
 barplot(prop.table(table(datos_raw_riesgo$r62)))
 barplot(prop.table(table(datos_raw_riesgo$r63)))
 barplot(prop.table(table(datos_raw_riesgo$r64)))
-
-# preguntas de cuestionario
-respuestas <- datos_raw_riesgo[,42:85]
-
-# 1 conjunto de preguntas
-pri_set <- respuestas[,1:20]
-
-# Estimate network:
-Network <- estimateNetwork(pri_set, default = "EBICglasso",
-                           threshold=TRUE)
-
-
-# Centrality indices:
-library("qgraph")
-centralityPlot(Network, include = c("Strength", "Betweenness", "Closeness"))
-
-# Estimated network:
-plot(Network, layout = 'spring')
-
-### Non-parametric bootstrap ###
-# Bootstrap 1000 values, using 8 cores:
-Results1 <- bootnet(Network, nBoots = 100, nCores = 1)
-
-# Plot bootstrapped edge CIs:
-plot(Results1, labels = FALSE, order = "sample")
-
-# Plot significant differences (alpha = 0.05) of edges:
-plot(Results1, "edge", plot = "difference",onlyNonZero = TRUE,
-     order = "sample")
