@@ -1,6 +1,6 @@
 *.RData 
 *.Rhistory
-*.csv
+data/complete_data/*
 *.xlsx
 *.docx
 *.doc
