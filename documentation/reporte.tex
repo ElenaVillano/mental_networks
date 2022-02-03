@@ -59,6 +59,11 @@
 \usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage[rightcaption]{sidecap}
+\usepackage[colorlinks = true,
+            linkcolor = black,
+            urlcolor  = gray,
+            citecolor = black,
+            anchorcolor = black]{hyperref}
 
 \usepackage{natbib}
 \bibliographystyle{apalike}
@@ -77,9 +82,6 @@
 %%%%%% Authors %%%%%%
 \author[ ]{Elena Villalobos Nolasco}
 
-%%%%%% Affiliations %%%%%%
-%affil[ ]{}
-
 %%%%%% Date %%%%%%
 % Date is optional
 \date{Enero, 2022.}
@@ -94,7 +96,7 @@
 
 %%%%%% Main Text %%%%%%
 
-El presente documento tiene los avances realizados en el proyecto de {\bf Análisis de Redes como alternativa de análisis para estudiar psicopatologías} y tiene como base principal el tutorial de \cite{main_tutorial}. En la primera parte del documento hablaremos de los conceptos básicos para entender el análisis de redes, así como de la descripción de los gráficos principales para estudiar las características de las redes. En la segunda parte presentaremos los resultados preliminares, con la base de datos del Tamizaje para la detección de riesgos. 
+El presente documento tiene los avances realizados en el proyecto de {\bf Análisis de Redes como alternativa de análisis para estudiar psicopatologías} y tiene como base principal el tutorial de \cite{main_tutorial}\footnote{Todo el código asociado a este proyecto se encuentra en el siguiente repositorio: \url{https://github.com/ElenaVillano/mental_networks}}. En la primera parte del documento hablaremos de los conceptos básicos para entender el análisis de redes, así como de la descripción de los gráficos principales para estudiar las características de las redes. En la segunda parte presentaremos los resultados preliminares, con la base de datos del Tamizaje para la detección de riesgos. 
 
 
 \section{Conceptos básicos para entender el análisis de redes}
@@ -182,15 +184,106 @@ La Figura \ref{fig:estabilidad_tutorial}, muestra la estabilidad de las medidas 
 
 El test de diferencias significativas, que también se hace con bootstrap, se utiliza para saber si una arista es significativamente distinta de otra, o si las medidas de centralidad son significativamente distintas de otras. En este test se recomienda, tener cuidado en la interpretación debido a que el no rechazar la hipótesis nula, no es evidencia de que la hipótesis alternativa sea verdadera\footnote{Hipótesis nula: no hay diferencias.}.
 
+\newpage
 
 \section{Resultados preliminares}
 
-Los siguientes gráficos se presentan a partir de la red
+Los siguientes gráficos se presentan a partir de los datos obtenidos en el Tamizaje para la detección de riesgos a la Salud Mental por Covid-19. La base de datos actual, sólo utiliza las 32 preguntas relacionadas a los contructos de depresión, ansiedad y estrés. Se tienen un total de 102,209 participantes.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.7]{images/net_todo.pdf}
+\caption{Red de todas las preguntas}
+\label{fig:red_todas}
+\end{figure}
 
 
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.7]{images/net_dean.pdf}
+\caption{Red de todas las preguntas de dean}
+\label{fig:red_dean}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.7]{images/net_pcl5.pdf}
+\caption{Red de todas las preguntas del pcl5}
+\label{fig:red_pcl5}
+\end{figure}
 
 
- 
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.7]{images/centrality_net_todo.pdf}
+\caption{Medidas de centralidad del todo}
+\label{fig:centra_todo}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.7]{images/centrality_net_pcl5.pdf}
+\caption{Medidas de centralidad del pcl5}
+\label{fig:centra_pcl5}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.7]{images/centrality_net_dean.pdf}
+\caption{Medidas de centralidad del dean}
+\label{fig:centra_dean}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{images/interval_todos.pdf}
+\caption{Interval red todo}
+\label{fig:interval_todo}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{images/interval_pcl15.pdf}
+\caption{Interval red pcl5}
+\label{fig:interval_pcl5}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{images/interval_dean.pdf}
+\caption{Interval red dean}
+\label{fig:interval_dean}
+\end{figure}
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{images/estability_todo.pdf}
+\caption{Estabilidad red todo}
+\label{fig:estabilidad_todo}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{images/estability_dean.pdf}
+\caption{Estabilidad red dean}
+\label{fig:estabilidad_dean}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{images/estability_pcl5.pdf}
+\caption{Estabilidad red pcl5}
+\label{fig:estabilidad_pcl5}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.5]{images/signif_2i_todo.pdf}
+\caption{Significancia}
+\label{fig:sintodo}
+\end{figure}
+
 
 
 

@@ -107,6 +107,7 @@ dev.off()
 pdf(file='documentation/images/interval_todos.pdf', width = 10, height = 8, onefile = T)
 plot(boot_IC_todo, labels = FALSE, order = "sample")
 dev.off()
+
 ######### B. Bootstrap de subconjuntos para ver la estabilidad de las medidas de centralidad
 
 boot_cen_pcl5 <- bootnet(pcl5_net, nBoots = 1000, type = 'case',
@@ -116,15 +117,15 @@ boot_cen_dean <- bootnet(dean_net, nBoots = 1000, type = 'case',
 boot_cen_todo <- bootnet(todo_net, nBoots = 1000, type = 'case',
                          statistics= c("strength", "closeness","betweenness"))
 
-pdf(file='documentation/images/estability.pdf', width = 10, height = 8, onefile = T)
+pdf(file='documentation/images/estability_pcl5.pdf', width = 10, height = 8, onefile = T)
 plot(boot_cen_pcl5, statistics = c("strength", "closeness","betweenness"))
 dev.off()
 
-pdf(file='documentation/images/estabilit_pcl5.pdf', width = 10, height = 8, onefile = T)
+pdf(file='documentation/images/estabilit_dean.pdf', width = 10, height = 8, onefile = T)
 plot(boot_cen_dean, statistics = c("strength", "closeness","betweenness"))
 dev.off()
 
-pdf(file='documentation/images/estability_pcl5.pdf', width = 10, height = 8, onefile = T)
+pdf(file='documentation/images/estability_todo.pdf', width = 10, height = 8, onefile = T)
 plot(boot_cen_todo, statistics = c("strength", "closeness","betweenness"))
 dev.off()
 
@@ -148,15 +149,15 @@ pdf(file='documentation/images/signifi_todo.pdf', width = 9, height = 9, onefile
 plot(boot_IC_todo, 'edge', plot = "difference", onlyNonZero = TRUE, order='sample')
 dev.off()
 
-pdf(file='documentation/images/signif_2i.pdf', width = 9, height = 9, onefile = T)
+pdf(file='documentation/images/signif_2i_pcl15.pdf', width = 9, height = 9, onefile = T)
 plot(boot_IC_pcl5, "strength")
 dev.off()
 
-pdf(file='documentation/images/signif_2i.pdf', width = 9, height = 9, onefile = T)
+pdf(file='documentation/images/signif_2i_dean.pdf', width = 9, height = 9, onefile = T)
 plot(boot_IC_dean, "strength")
 dev.off()
 
-pdf(file='documentation/images/signif_2i.pdf', width = 9, height = 9, onefile = T)
+pdf(file='documentation/images/signif_2i_todo.pdf', width = 9, height = 9, onefile = T)
 plot(boot_IC_todo, "strength")
 dev.off()
 
