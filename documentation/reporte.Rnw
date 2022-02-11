@@ -147,15 +147,15 @@ Los siguientes gráficos se presentan a partir de los datos obtenidos en el Tami
 \begin{figure}
 \centering
 \begin{subfigure}{0.45\textwidth}
-    \includegraphics[width=\textwidth]{images/net_pcl5.pdf}
-    \caption{Red PCL5.}
-    \label{fig:netpcl5}
-\end{subfigure}
-\hfill
-\begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{images/net_dean.pdf}
     \caption{Red DEAN.}
     \label{fig:netdean}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/net_pcl5.pdf}
+    \caption{Red PCL5.}
+    \label{fig:netpcl5}
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.7\textwidth}
@@ -163,74 +163,85 @@ Los siguientes gráficos se presentan a partir de los datos obtenidos en el Tami
     \caption{Red de todos los reactivos.}
     \label{fig:nettodos}
 \end{subfigure}
-        
 \caption{Redes evaluadas.}
-\label{fig:figures}
+\label{fig:nets}
 \end{figure}
 
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale=0.7]{images/centrality_net_todo.pdf}
+\includegraphics[scale=0.8]{images/centrality_net_todo.pdf}
 \caption{Medidas de centralidad del todo}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.7]{images/centrality_net_pcl5.pdf}
-\caption{Medidas de centralidad del pcl5}
-\label{fig:centra_pcl5}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.7]{images/centrality_net_dean.pdf}
-\caption{Medidas de centralidad del dean}
-\label{fig:centra_dean}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/interval_todos.pdf}
-\caption{Interval red todo}
-\label{fig:interval_todo}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/interval_pcl15.pdf}
-\caption{Interval red pcl5}
-\label{fig:interval_pcl5}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/interval_dean.pdf}
-\caption{Interval red dean}
-\label{fig:interval_dean}
+\label{fig:centra_todos}
 \end{figure}
 
 
-\begin{figure}[ht]
+
+\begin{figure}
 \centering
-\includegraphics[scale=0.5]{images/estability_todo.pdf}
-\caption{Estabilidad red todo}
-\label{fig:estabilidad_todo}
+\begin{subfigure}{0.6\textwidth}
+    \includegraphics[width=\textwidth]{images/centrality_net_pcl5.pdf}
+    \caption{Firts subfigure.}
+    \label{fig:centrapcl5}
+\end{subfigure}
+\begin{subfigure}{0.6\textwidth}
+    \includegraphics[width=\textwidth]{images/centrality_net_dean.pdf}
+    \caption{Second subfigure.}
+    \label{fig:centradean}
+\end{subfigure}
+\caption{Creating subfigures in \LaTeX.}
+\label{fig:centrados}
 \end{figure}
 
-\begin{figure}[ht]
+
+
+\begin{figure}
 \centering
-\includegraphics[scale=0.5]{images/estability_dean.pdf}
+\begin{subfigure}{0.49\textwidth}
+    \includegraphics[width=\textwidth]{images/interval_dean.pdf}
+  \caption{Interval red dean}
+  \label{fig:interval_dean}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+    \includegraphics[width=\textwidth]{images/interval_pcl15.pdf}
+    \caption{Interval red pcl5}
+    \label{fig:interval_pcl5}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.6\textwidth}
+    \includegraphics[width=\textwidth]{images/interval_todos.pdf}
+    \caption{Interval red todo}
+    \label{fig:interval_todo}
+\end{subfigure}
+\caption{Intervalos de Confianza de las tres redes.}
+\label{fig:intervalos}
+\end{figure}
+
+
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.49\textwidth}
+    \includegraphics[width=\textwidth]{images/estability_dean.pdf}
 \caption{Estabilidad red dean}
 \label{fig:estabilidad_dean}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/estability_pcl5.pdf}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+    \includegraphics[width=\textwidth]{images/estability_pcl5.pdf}
 \caption{Estabilidad red pcl5}
 \label{fig:estabilidad_pcl5}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.6\textwidth}
+    \includegraphics[width=\textwidth]{images/estability_todo.pdf}
+    \caption{Estabilidad red todo}
+    \label{fig:estabilidad_todo}
+\end{subfigure}
+\caption{Estabilidad de las tres redes.}
+\label{fig:estabilidad}
 \end{figure}
+
+
 
 \begin{figure}[ht]
 \centering
@@ -239,10 +250,8 @@ Los siguientes gráficos se presentan a partir de los datos obtenidos en el Tami
 \label{fig:sintodo}
 \end{figure}
 
+adsfhñoiadfsklñjadsfñkljañdslkfjsdñlkfdjñkladsjfdlñkjafkdlaj
 
-
-
-\newpage
 
 
 \bibliography{bibtex}
