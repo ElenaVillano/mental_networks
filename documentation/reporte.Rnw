@@ -46,37 +46,38 @@
 
 %%%%%% Main Text %%%%%%
 
-El presente documento tiene los avances realizados en el proyecto de {\bf Análisis de Redes como alternativa de análisis para estudiar psicopatologías} y tiene como base principal el tutorial de \cite{main_tutorial}\footnote{Todo el código asociado a este proyecto se encuentra en el siguiente repositorio: \url{https://github.com/ElenaVillano/mental_networks}}. En la primera parte del documento hablaremos de los conceptos básicos para entender el análisis de redes, así como de la descripción de los gráficos principales para estudiar las características de las redes. En la segunda parte presentaremos los resultados preliminares, con la base de datos del Tamizaje para la detección de riesgos. 
+El presente documento tiene los avances realizados en el proyecto de {\bf Análisis de Redes como alternativa de análisis para estudiar psicopatologías}\footnote{Todo el código e información asociada a este proyecto se encuentra en el siguiente repositorio: \url{https://github.com/ElenaVillano/mental_networks}} y tiene como base principal el tutorial de \cite{main_tutorial}. En la primera parte del documento hablaremos de los conceptos básicos para entender el análisis de redes, así como de la descripción de los gráficos principales para estudiar las características de las redes. En la segunda parte, presentaremos algunos resultados preliminares obtenidos de la base de datos del Tamizaje para la detección de riesgos a la Salud Mental por Covid-19. 
 
 
 \section{Conceptos básicos para entender el análisis de redes}
 
-El análisis de redes, basado en la teoría de grafos, es un método analítico que tiene como objetivo estudiar las interrelaciones existentes entre entidades. En éste, los nodos representan entidades (aeropuestos, personas, etc.), y las conexiones, también conocidas como aristas, son observadas, medidas y conocidas (número de vuelos entre aeropuestos, amistades, etc.). 
+El análisis de redes, basado en la teoría de grafos, es un método analítico que tiene como objetivo estudiar las interrelaciones existentes entre entidades. En éste, los nodos representan entidades (aeropuestos, personas, etc.), y las conexiones, también conocidas como aristas, son observadas, medidas y conocidas (número de vuelos entre aeropuestos, amistades, etc.). Además, en el análisis de redes, las aristas puedes ser dirigidas o no dirigidas, en las primeras hay un nodo de origen y un nodo destino, en las segundas una arista representa una conexión simétrica entre dos nodos. Para este estudio se utilizarán redes no dirigidas que representan una relación entre los nodos. 
 
-De manera similar pero estructuralmente diferente al análisis de redes, las redes psicológicas consisten en nodos que representan las variables observadas que están interconectados por aristas que representan relaciones estadísticas, las cuales se infieren a partir de los mismos datos. Por ejemplo, en un cuestionario psicométrico las respuestas a las preguntas son los nodos, y lo que se calcula son las interrelaciones, también entendidas como las aristas. Como dichas interrelaciones se estiman a partir de los datos, es muy recomendable tener más datos que ayuden a hacer cómputos más confiables.
+De manera similar pero estructuralmente diferente al análisis de redes, las redes psicológicas consisten en nodos que representan las variables observadas que están interconectados por aristas que representan relaciones estadísticas, las cuales se infieren a partir de los mismos datos. Por ejemplo, en un cuestionario psicométrico las respuestas a las preguntas de presencia/ausencia de síntomas son los nodos, y lo que se infiere son interrelaciones entre los nodos o síntomas. Como dichas interrelaciones se estiman a partir de los datos, es muy recomendable tener más datos que ayuden a hacer cómputos más confiables.
 
 A grandes rasgos, el análisis de redes psicológicas tiene dos pasos involucrados:
 
 \begin{enumerate}
   \item Estimar el modelo estadístico sobre los datos, es decir, la estimación de la red con sus pesos correspondientes entre las variables observadas. 
-  \item Analizar si las estimaciones de los pesos son adecuadas, a partir de medidas desarrolladas en teoría de grafos. 
+  \item Analizar si las estimaciones de los pesos de la red son adecuadas, a partir de medidas desarrolladas en teoría de grafos. 
 \end{enumerate}
 
+De manera específica, en las redes psicológicas {\bf los nodos representan las variables observadas y las aristas representan coeficientes de correlación parcial entre variables (i.e. pesos de las aristas), condicionadas sobre las otras variables observadas}. 
 
-De manera específica, en las redes psicológicas {\bf los nodos representan las variables observadas y las aristas representan coeficientes de correlación parcial entre variables (i.e. pesos de las aristas), condicionadas sobre las otras variables observadas}. Para evaluar la importancia de los nodos en la red se computan las medidas de centralidad que son: 
+En toda red estimada, se tiene que valorar la importancia o conectividad de los nodos dentro de la red, para lo que se computan las medidas de centralidad que son: 
 
 \begin{description}
-  \item[Fuerza del nodo:] que tan bien el nodo es {\bf directamente} conectado con otros nodos.
-  \item[Closeness:] cuantificar que tan bien el nodo es indirectamente conectado a otros nodos. 
-  \item[Betweeness:] que tan importante es un nodo en el camino promedio entre dos nodos. 
+  \item[Fuerza del nodo:] que tan bien el nodo esta {\bf directamente} conectado con otros nodos. Una manera de interpretarlo, es que tan importante es el nodo dentro de la red conectando directamente con otros nodos. 
+  \item[Cercanía o closeness:] cuantificar que tan bien el nodo es indirectamente conectado a otros nodos. Es una especie de promedio que nos dice qué tan lejos están los otros nodos de la red. 
+  \item[Intermediación o betweeness:] que tan importante es un nodo en el camino promedio entre dos nodos. Otra manera de decirlo es que tan único es el nodo para conectar con otros pares de nodos de la red. 
 \end{description}
 
-Dentro del tutorial de \cite{main_tutorial} ellos simularon una red con un modelo gráfico gausiano del cual obtuvieron las medidas de centralidad ya descritas, ambos presentados en la Figura \ref{fig:tuto_red}. En ésta se puede observar de lado derecho que las conexiones más fuertes positivas son entre los nodos 16 y 17, 3 y 4, y 11 y 5. También, se puede observar una conexión negativa entre los nodos 10 y 12. En cuanto a las medidas de centralidad, el nodo 17 y el 3 salen como los más importantes para la red, tanto para la fuerza del nodo como para \emph{betweenness}. 
+Dentro del tutorial de \cite{main_tutorial}, simularon una red con un modelo gráfico gausiano del cual obtuvieron las medidas de centralidad ya descritas, ambos presentados en la Figura \ref{fig:tuto_red}. La red la estimaron utilizando una base de datos donde cada uno de los 17 reactivos, hablaban de síntomas de estrés post-traumático. En ésta se puede observar de lado izquierdo que las conexiones más fuertes positivas son entre los nodos o síntomas 16 y 17, 3 y 4, y 11 y 5, pues entre más concentración de color y grosor en la arista, más correlación positiva parcial hay entre esos nodos. De la misma manera, se puede observar una relación negativa delgada entre los nodos 10 y 12, representada por la presencia del color rojo. También, la ausencia de conexión entre los nodos es indicio de que hay independencia estadística (no hay relación) entre los nodos cuando se condiciona sobre los otros síntomas. En cuanto a las medidas de centralidad en el panel derecho, el nodo 17 y el 3 salen como los más importantes para la red, tanto para la fuerza del nodo como para \emph{betweenness}. 
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.5]{images/red_medidas_tutorial}
-\caption{Red de modelo gráfico gausiano del cuestionario PTSD con 17 reactivos (panel derecho) y sus respectivos índices de centralidad (panel derecho), presentados en el tutorial de \cite{main_tutorial}}
+\caption{Red de modelo gráfico gausiano del cuestionario PTSD con 17 reactivos (panel izquierdo) y sus respectivos índices de centralidad (panel derecho), presentados en el tutorial de \cite{main_tutorial}}.
 \label{fig:tuto_red}
 \end{figure}
 
@@ -92,9 +93,9 @@ Antes de presentar la evaluación de la precisión de las redes, en la siguiente
 
 \subsection*{Especificaciones de estimaciones de redes psicológicas.}
 
-Un modelo de redes que se usa popularmente para estimar redes psicológicas es un Campo Aleatorio de Markov por Pares (Pairwise Markov Random Field, PMRF). En este modelo, los nodos representan variables, y se conectan a través de arístas no-direccionadas, indicando dependencia condicional entre dos variables; si dos varialbes que no están conectadas son independientes, aún después de condicionar sobre las otras variables. Cuando los datos son normales multivariados, esta independencia condicional correspondería a una correlación parcial igual a cero. 
+Un modelo de redes que se usa popularmente para estimar redes psicológicas es un Campo Aleatorio de Markov por Pares (Pairwise Markov Random Field, PMRF). En este modelo, los nodos representan variables, y se conectan a través de arístas no-direccionadas, indicando dependencia condicional entre dos variables; dos variables que no están conectadas son independientes después de condicionar sobre las otras variables. Cuando los datos son normales multivariados, esta independencia condicional correspondería a una correlación parcial igual a cero. De manera específica, los parámetros de los pesos de las aristas se interpretan como la fuerza de asociaciones únicas entre variables, que {\bf pueden} indicar potenciales relaciones causales. 
 
-Cuando los datos son binarios, el modelo PRMF a utilizar es el modelo Ising. Mientras que si los datos siguen una densidad normal multivariada, el modelo apropiado de PRMF, es el modelo gráfico gausiano (GGM), en los que las aritas pueden ser directamente interpretadas como coeficientes de correlación parcial. El GGM requiere un estimado de la matriz de covarianza como entrada, que en caso de que los datos sean ordinales se pueden utilizar correlaciones policóricas (i.e. correlación para variables ordinales de variables latentes).
+Cuando los datos son binarios, el modelo PRMF a utilizar es el modelo Ising. Mientras que si los datos siguen una densidad normal multivariada, el modelo apropiado de PRMF es el modelo gráfico gausiano (GGM), en el que las aritas pueden ser directamente interpretadas como coeficientes de correlación parcial. El GGM requiere un estimado de la matriz de covarianza como entrada, que en caso de que los datos sean ordinales se pueden utilizar correlaciones policóricas (i.e. correlación para variables ordinales de variables latentes).
 
 El modelo PMRF tiene el problema de que el número de parámetros a estimar crece mucho con el tamaño de la red y en generalmente en el área de psicología no se tienen tantos datos que compensen esta sobre-estimación. Para tratar dicho problema se utiliza la forma de regularización de LASSO (Least Absolute Shrinkage and Selection Operator), técnica penaliza el uso de muchos parámetros, limitando la suma de valores paramétricos absolutos. Por lo que LASSO regresa un modelo de red más conservador, que en otras palabras, sólo un pequeño número de aristas se utilizan para explicar la covariación de la estructura en los datos\footnote{El paquete de \texttt{qgraph} utiliza lasso en combinación con la selección de modelos EBIC para estimar un GGM regularizado.}. 
 
@@ -105,61 +106,66 @@ Para evaluar la variabilidad de los pesos de las aritas se pueden estimar Interv
 
 Es importante mencionar que los resultados del bootstrap no deberían ser utilizados para hacer test de significancia diferente de cero, pues la regularización de LASSO ayuda a quitar los pesos que no son importantes en la red. Esto significa que los pesos que aparecen dentro de la red, ya pueden ser significativamente diferentes de cero, por lo que conviene considerarlos como importantes. 
 
-Entonces la interpretación de los Intervalos de Confianza con bootstrap para los pesos de las aristas no se deben asumir diferentes de cero, si no que este sólo muestra la precisión de esos pesos y lo que se debe de hacer es comparar los valores de las aristas entre ellos. Cuando un intervalo es ancho, es difícil hacer la interpretación de la fuerza del nodo, por lo que probablemente resultará en poca precisión para las otras medidas de centralidad. 
+Entonces la interpretación de los Intervalos de Confianza con bootstrap para los pesos de las aristas no se deben asumir diferentes de cero, si no que sólo muestran la precisión de esos pesos y lo que se debe de hacer es comparar los valores de las aristas entre ellos. Cuando un intervalo es ancho, es difícil hacer la interpretación de la fuerza del nodo, por lo que probablemente resultará en poca precisión para las otras medidas de centralidad. 
 
-La Figura \ref{fig:inter_boot_tutorial} son los Intervalos de Confianza para el modelo presentado al inicio de este documento (figura \ref{fig:tuto_red}). En este gráfico cada línea horizontal representa una arista de la red, ordenadas desde la arista con el peso más alto, hasta la arista con el peso más bajo. Es decir, las conexiones colocadas en la parte superior del gráfico son las más fuertes, que son entre los nodos 17 y 16, 3 y 4, y 11 y 5. Se podría considerar que son, de manera confiable, las tres aristas con más fuerza de conexión debido a que sus Intervalos de Confianza no se superponen con los CI de ningún otro borde.
+La Figura \ref{fig:inter_boot_tutorial}, son los Intervalos de Confianza para el modelo presentado al inicio de este documento (figura \ref{fig:tuto_red}). En este gráfico cada línea horizontal representa una arista de la red, ordenadas desde la arista con el peso más alto, hasta la arista con el peso más bajo. Es decir, las conexiones colocadas en la parte superior del gráfico son las más fuertes, que son entre los nodos 17 y 16, 3 y 4, y 11 y 5. Se podría considerar que son, de manera confiable, las tres aristas con más fuerza de conexión debido a que sus Intervalos de Confianza no se superponen con los intervalos de ninguna otra arista.
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.5]{images/intervalos_boot_tutorial}
-\caption{Intervalos de Confianza bootstrap de \cite{main_tutorial}}
+\caption{Intervalos de Confianza bootstrap de \cite{main_tutorial}.}
 \label{fig:inter_boot_tutorial}
 \end{figure}
 
 \subsection{Estabilidad de centralidad}
 
-Para saber la estabilidad de las medidas de centralidad no se puede utilizar bootstrap\footnote{Esto es porque se generan distribuciones muestrales sesgadas.}, por lo que se propone estudiar dichas medidas con subconjuntos de datos. Se dice que los índices de centralidad son estables cuando el orden de los índices es el mismo en diferentes submuestras del mismo conjunto de datos. Lo que se hace es que se aplica la técnica de re-muestreo (el bootstrap regular) para diversas proporciones de los mismos participantes (o variables) y se evalúa si la correlación entre los índices de centralidad originales y aquellos obtenidos en las submuestras son estables. Si la correlación cambia completamente después de quitar 10\% de la muestra, por ejemplo, entonces las interpretaciones de centralidad pueden ser erróneas. A esto se le llama bootstrap de subconjuntos con \emph{case-dropping}. Para cuantificar dicha estabilidad se propone la medida de coeficiente de estabilidad de correlación (CS-coefficient), que se recomienda sea mayor a 0.7.
+Para saber la estabilidad de las medidas de centralidad no se puede utilizar bootstrap\footnote{Esto es porque se generan distribuciones muestrales sesgadas.}, por lo que se propone estudiar dichas medidas con subconjuntos de datos. Se dice que los índices de centralidad son estables cuando el orden de los índices es el mismo en diferentes submuestras del mismo conjunto de datos. Lo que se hace es que se aplica la técnica de re-muestreo (el bootstrap regular) para diversas proporciones de los mismos participantes (o variables) y se evalúa si la correlación entre los índices de centralidad originales y aquellos obtenidos en las submuestras, son estables. Si la correlación cambia completamente después de quitar 10\% de la muestra, por ejemplo, entonces las interpretaciones de centralidad pueden ser erróneas. A esto se le llama bootstrap de subconjuntos con \emph{case-dropping}. Para cuantificar dicha estabilidad se propone la medida de coeficiente de estabilidad de correlación (CS-coefficient), que se recomienda sea mayor a 0.7.
 
 
-La Figura \ref{fig:estabilidad_tutorial}, muestra la estabilidad de las medidas de centralidad del modelo que se ha venido presentando. Este, como se menciona, debe de permanecer estable y tener promedio de correlación similar entre los diferentes porcentajes de muestra. Por lo tanto, se espera que las líneas se mantengan rectas y en la parte superior, a lo largo de los porcentajes, que están en el eje x. Para este caso, la medida de fuerza parece ser la más estable, mientras que \emph{betweennes} y \emph{closeness}, tienen mayor disminución en cuanto se reduce el porcentaje que muestra. 
+La Figura \ref{fig:estabilidad_tutorial}, muestra la estabilidad de las medidas de centralidad del modelo que se ha venido presentando. Éste debe de permanecer estable y tener promedio de correlación similar entre los diferentes porcentajes de muestra. Por lo tanto, se espera que las líneas se mantengan rectas y en la parte superior a lo largo de los porcentajes que están en el eje x. Para este caso, la medida de fuerza parece ser la más estable, mientras que \emph{betweennes} y \emph{closeness}, tienen mayor disminución conforme se reduce el porcentaje de muestra. 
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[scale=0.5]{images/estabilidad_tutorial}
-\caption{Estabilidad de las mendidas de centralidad del ejemplo del tutorial.}
+\caption{Estabilidad de las medidas de centralidad del ejemplo \cite{main_tutorial}.}
 \label{fig:estabilidad_tutorial}
 \end{figure}
 
 \subsection{Test para diferencias significativas}
 
-El test de diferencias significativas, que también se hace con bootstrap, se utiliza para saber si una arista es significativamente distinta de otra, o si las medidas de centralidad son significativamente distintas de otras. En este test se recomienda, tener cuidado en la interpretación debido a que el no rechazar la hipótesis nula, no es evidencia de que la hipótesis alternativa sea verdadera\footnote{Hipótesis nula: no hay diferencias.}.
+El test de diferencias significativas, que también se hace con bootstrap, se utiliza para saber si una arista es significativamente distinta de otra, o si las medidas de centralidad son significativamente distintas de otras. En este test se recomienda, tener cuidado en la interpretación debido a que el no rechazar la hipótesis nula, no es evidencia de que la hipótesis alternativa sea verdadera\footnote{Hipótesis nula: no hay diferencias.}. El tipo de gráficos que se presentan para estos test son aquellos donde se presenta una matriz de cuadros, los que son negros son significativos entre los pares que se indican en los ejes x y y, y los grises no son significativos. En la siguiente sección presentaremos un gráfico como el que se menciona. 
 
 \newpage
 
 \section{Resultados preliminares}
 
+
+
 Los siguientes gráficos se presentan a partir de los datos obtenidos en el Tamizaje para la detección de riesgos a la Salud Mental por Covid-19. La base de datos actual, sólo utiliza las 32 preguntas relacionadas a los contructos de depresión, ansiedad y estrés. Se tienen un total de 102,209 participantes.
 
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.7]{images/net_todo.pdf}
-\caption{Red de todas las preguntas}
-\label{fig:red_todas}
-\end{figure}
 
-
-\begin{figure}[ht]
+\begin{figure}
 \centering
-\includegraphics[scale=0.7]{images/net_dean.pdf}
-\caption{Red de todas las preguntas de dean}
-\label{fig:red_dean}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.7]{images/net_pcl5.pdf}
-\caption{Red de todas las preguntas del pcl5}
-\label{fig:red_pcl5}
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/net_pcl5.pdf}
+    \caption{Red PCL5.}
+    \label{fig:netpcl5}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+    \includegraphics[width=\textwidth]{images/net_dean.pdf}
+    \caption{Red DEAN.}
+    \label{fig:netdean}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.7\textwidth}
+    \includegraphics[width=\textwidth]{images/net_todo.pdf}
+    \caption{Red de todos los reactivos.}
+    \label{fig:nettodos}
+\end{subfigure}
+        
+\caption{Redes evaluadas.}
+\label{fig:figures}
 \end{figure}
 
 
@@ -167,7 +173,6 @@ Los siguientes gráficos se presentan a partir de los datos obtenidos en el Tami
 \centering
 \includegraphics[scale=0.7]{images/centrality_net_todo.pdf}
 \caption{Medidas de centralidad del todo}
-\label{fig:centra_todo}
 \end{figure}
 
 \begin{figure}[ht]
