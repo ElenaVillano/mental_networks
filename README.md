@@ -14,4 +14,4 @@ The most recent update in this project is in the following document: [report](ht
 - Reports are in `documentation/`.
 
 
-[net_todo.pdf](https://github.com/ElenaVillano/mental_networks/documentation/images/example.png)
+![example](documentation/images/example.png)
