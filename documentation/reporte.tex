@@ -58,6 +58,7 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{amsmath}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage[rightcaption]{sidecap}
 \usepackage[colorlinks = true,
             linkcolor = black,
@@ -96,7 +97,7 @@
 
 %%%%%% Main Text %%%%%%
 
-El presente documento tiene los avances realizados en el proyecto de {\bf Análisis de Redes como alternativa de análisis para estudiar psicopatologías}\footnote{Todo el código e información asociada a este proyecto se encuentra en el siguiente repositorio: \url{https://github.com/ElenaVillano/mental_networks}} y tiene como base principal el tutorial de \cite{main_tutorial}. En la primera parte del documento hablaremos de los conceptos básicos para entender el análisis de redes, así como de la descripción de los gráficos principales para estudiar las características de las redes. En la segunda parte, presentaremos algunos resultados preliminares obtenidos de la base de datos del Tamizaje para la detección de riesgos a la Salud Mental por Covid-19. 
+El presente documento tiene los avances realizados en el proyecto de {\bf Análisis de Redes como alternativa de análisis para estudiar psicopatologías}\footnote{Todo el código e información asociada a este proyecto se encuentra en el siguiente repositorio: \url{https://github.com/ElenaVillano/mental_networks}} y tiene como base principal el tutorial de \cite{main_tutorial} y sus materiales adicionales \citep{epskamp2018estimating}. En la primera parte del documento hablaremos de los conceptos básicos para entender el análisis de redes, así como de la descripción de los gráficos principales para estudiar las características de las redes. En la segunda parte, presentaremos algunos resultados obtenidos de la base de datos del Tamizaje para la detección de riesgos a la Salud Mental por Covid-19 \citep{morales2021mental, chaine2020condiciones}. 
 
 
 \section{Conceptos básicos para entender el análisis de redes}
@@ -114,7 +115,7 @@ A grandes rasgos, el análisis de redes psicológicas tiene dos pasos involucrad
 
 De manera específica, en las redes psicológicas {\bf los nodos representan las variables observadas y las aristas representan coeficientes de correlación parcial entre variables (i.e. pesos de las aristas), condicionadas sobre las otras variables observadas}. 
 
-En toda red estimada, se tiene que valorar la importancia o conectividad de los nodos dentro de la red, para lo que se computan las medidas de centralidad que son: 
+En toda red estimada, se tiene que valorar la importancia o conectividad de los nodos dentro de la red, para lo que se computan las medidas de centralidad \citep{felipe} que son: 
 
 \begin{description}
   \item[Fuerza del nodo:] que tan bien el nodo esta {\bf directamente} conectado con otros nodos. Una manera de interpretarlo, es que tan importante es el nodo dentro de la red conectando directamente con otros nodos. 
@@ -147,7 +148,7 @@ Un modelo de redes que se usa popularmente para estimar redes psicológicas es u
 
 Cuando los datos son binarios, el modelo PRMF a utilizar es el modelo Ising. Mientras que si los datos siguen una densidad normal multivariada, el modelo apropiado de PRMF es el modelo gráfico gausiano (GGM), en el que las aritas pueden ser directamente interpretadas como coeficientes de correlación parcial. El GGM requiere un estimado de la matriz de covarianza como entrada, que en caso de que los datos sean ordinales se pueden utilizar correlaciones policóricas (i.e. correlación para variables ordinales de variables latentes).
 
-El modelo PMRF tiene el problema de que el número de parámetros a estimar crece mucho con el tamaño de la red y en generalmente en el área de psicología no se tienen tantos datos que compensen esta sobre-estimación. Para tratar dicho problema se utiliza la forma de regularización de LASSO (Least Absolute Shrinkage and Selection Operator), técnica penaliza el uso de muchos parámetros, limitando la suma de valores paramétricos absolutos. Por lo que LASSO regresa un modelo de red más conservador, que en otras palabras, sólo un pequeño número de aristas se utilizan para explicar la covariación de la estructura en los datos\footnote{El paquete de \texttt{qgraph} utiliza lasso en combinación con la selección de modelos EBIC para estimar un GGM regularizado.}. 
+El modelo PMRF tiene el problema de que el número de parámetros a estimar crece mucho con el tamaño de la red y en generalmente en el área de psicología no se tienen tantos datos que compensen esta sobre-estimación. Para tratar dicho problema se utiliza la forma de regularización de LASSO (Least Absolute Shrinkage and Selection Operator), técnica penaliza el uso de muchos parámetros, limitando la suma de valores paramétricos absolutos. Por lo que LASSO regresa un modelo de red más conservador, que en otras palabras, sólo un pequeño número de aristas se utilizan para explicar la covariación de la estructura en los datos\footnote{El paquete de \texttt{qgraph} \citep{packageqgraph, bootnet} utiliza lasso en combinación con la selección de modelos EBIC para estimar un GGM regularizado.}. 
 
 
 \subsection{Precisión de los pesos de las aristas}
@@ -183,118 +184,223 @@ La Figura \ref{fig:estabilidad_tutorial}, muestra la estabilidad de las medidas 
 
 \subsection{Test para diferencias significativas}
 
-El test de diferencias significativas, que también se hace con bootstrap, se utiliza para saber si una arista es significativamente distinta de otra, o si las medidas de centralidad son significativamente distintas de otras. En este test se recomienda, tener cuidado en la interpretación debido a que el no rechazar la hipótesis nula, no es evidencia de que la hipótesis alternativa sea verdadera\footnote{Hipótesis nula: no hay diferencias.}. El tipo de gráficos que se presentan para estos test son aquellos donde se presenta una matriz de cuadros, los que son negros son significativos entre los pares que se indican en los ejes x y y, y los grises no son significativos. En la siguiente sección presentaremos un gráfico como el que se menciona. 
+El test de diferencias significativas, que también se hace con bootstrap, se utiliza para saber si una arista es significativamente distinta de otra, o si las medidas de centralidad son significativamente distintas de otras. En este test se recomienda, tener cuidado en la interpretación debido a que el no rechazar la hipótesis nula, no es evidencia de que la hipótesis alternativa sea verdadera\footnote{Hipótesis nula: no hay diferencias.}. Para este tipo de gráficos que se presenta una matriz cuadrada, en donde los cuadros negros representan diferencia significativa entre los pares que se indiquen en los ejes x y y, y los grises son diferencias no son significativos. En la siguiente sección presentaremos un gráfico como el que se menciona. 
 
 \newpage
 
-\section{Resultados preliminares}
+\section{Resultados}
 
+En esta sección se hablará de tres modelos de redes que se crearon a partir del Tamizaje para la detección de riesgos a la Salud Mental por Covid-19, con 102,209 participantes. Para el presente análisis sólo se utilizaron preguntas referentes a síntomas de depresión, ansiedad, estrés, etc. Los reactivos que se utilizaron se basan en cuestionarios psicométricos como el PCL-5 que es para estrés postraumático, y el GAD-7 que es para ansiedad generalizada. Cada respuesta va de 0 al 10, donde cero es nada y 10 es extremo, la Tabla \ref{tab:tablareactivos} presenta una breve descripción de cada reactivo. 
+\vspace{0.5cm}
 
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|l|c|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+ID & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}Variable} & Constructo \\ \hline
+\begin{tabular}[c]{@{}c@{}}st1\\ st2\\ st3\\ st4\\ st8\\ st12\\ st17\end{tabular} & \begin{tabular}[c]{@{}l@{}}Pienso/imagino enfermar\\ Pesadillas sobre enfermar\\ Preocupación por mención enfermedad\\ Reacciones físicas al pensar en enfermar\\ Si alguien enferma es por mi culpa\\ Incertidumbre de futuro por enfermedad\\ Asustado por padecer enfermedad\end{tabular} & Estrés \\ \hline
+\begin{tabular}[c]{@{}c@{}}av5\\ av6\\ av7\end{tabular} & \begin{tabular}[c]{@{}l@{}}Evito pensar/hablar sobre enfermedad\\ Evito escuchar fuentes oficiales sobre enfermedad\\ Dificultad para recordar recomendaciones oficiales\end{tabular} & Evitación \\ \hline
+\begin{tabular}[c]{@{}c@{}}d9\\ d10\\ d11\\ d13\\ d14\\ d15\\ d16\end{tabular} & \begin{tabular}[c]{@{}l@{}}He perdido interés por actividades \\ Distante con personas que convivo \\ Dificultad de afecto por seres queridos\\ Deseo de hacerme daño\\ Dificultad para dormir o seguir dormido\\ Me siento enojado\\ Me cuesta trabajo poner atención\end{tabular} & Distanciamiento \\ \hline
+\begin{tabular}[c]{@{}c@{}}ag18\\ ag19\\ ag20\\ ag21\\ ag22\end{tabular} & \begin{tabular}[c]{@{}l@{}}Me siento ansioso/nervioso\\ Incapaz de controlar preocupaciones\\ Me siento inquieto\\ Dificultad para relajarme \\ Miedo de que algo terrible pueda pasar\end{tabular} & \begin{tabular}[c]{@{}c@{}}Ansiedad\\ Generalizada\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}as23\\ as24\\ as25\end{tabular} & \begin{tabular}[c]{@{}l@{}}Me encuentro preocupado por mi salud\\ Preocupado por dolores o molestias físicas\\ Me asusta tener una enfermedad física grave\end{tabular} & \begin{tabular}[c]{@{}c@{}}Ansiedad \\ por\\ salud\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}s26\\ s27\\ s28\\ s29\\ s30\end{tabular} & \begin{tabular}[c]{@{}l@{}}Creo padecer enfermedad sin confirmación\\ Me observo para ver qué siento en mi cuerpo\\ Leo sobre enfermedades físicas graves\\ Comento mis dolores/molestias a familiares\\ Me quedo en cama y otros como si enfermara\end{tabular} & Somatización \\ \hline
+\begin{tabular}[c]{@{}c@{}}d31\\ d32\end{tabular} & \begin{tabular}[c]{@{}l@{}}Siento poco interés de hacer cosas\\ Me siento decaído o deprimido o sin esperanzas\end{tabular} & Depresión \\ \hline
+\end{tabular}
+\caption{Descripción breve de cada reactivo, así como su identificador de reactivo y constructo referente.}
+\label{tab:tablareactivos}
+\end{table}
 
-Los siguientes gráficos se presentan a partir de los datos obtenidos en el Tamizaje para la detección de riesgos a la Salud Mental por Covid-19. La base de datos actual, sólo utiliza las 32 preguntas relacionadas a los contructos de depresión, ansiedad y estrés. Se tienen un total de 102,209 participantes.
+En la Figura \ref{fig:nets} se muestran tres modelos de redes analizados. El primer modelo (panel a) tiene los reactivos asociados a los constructos de estrés, evitación y distanciamiento, que están más asociados a la prueba PCL-5. El segundo modelo (panel b) tiene los reactivos asociados a los constructos de ansiedad generalizada y por salud, somatización y depresión, en los cuales la mayoría de los reactivos corresponden a la prueba GAD-7. Y el tercer modelo (panel c) tiene los reactivos de todos los constructos. La presencia de verde más concentrado, así como la anchura de las aristas se refiere a correlaciones positivas más fuertes entre esos nodos, si estas son rojas, es correlación negativa. 
 
+Para el modelo del panel a, se observan tres agrupamientos principales, los que hablan evitación (reactivos que inician con av), los que hablan de estrés (reactivos que inician con s o st) y los que hablan de distanciamiento (reactivos que inician con d o di). Así mismo dentro de esos grupos se observan pares de reactivos que tienen una correlación positiva más pronunciada, como entre los pares de reactivos de av6 - av5, st3 - s17, st4 - st2, y d15 - d16. El nodo s12, que habla de incertidumbre sobre el futuro, parece ser muy importante porque conecta los constructos de distanciamiento y estrés. También parece haber una correlación negativa ligera entre los nodos d11 y d13 con respecto a st3 y s17, lo cual parece indicar que la preocupación e incertidumbre provocadas por la presencia de la enfermedad, no necesariamente hacen haya dificultad de afecto por seres queridos y deseo de hacerme daño. 
+
+Para el modelo del panel b se observan también agrupaciones de acuerdo a los constructos. Por ejemplo, los reactivos de depresión se encuentran muy correlacionados entre ellos, y se conectan más con ansiedad generalizada, mientras que no hay aristas notables que los conecten con los demás constructos. Un reactivo que parece ser central entre la ansiedad generalizada y la ansiedad por salud es el ag22, que se refiere al miedo que de que algo terrible pueda pasar. Algo notable también, es que los reactivos de somatización parecen no tener tanta correlación ni entre ellos, ni con respecto a otros reactivos. 
+
+Para el modelo con todos los reactivos se observan diversas agrupaciones importantes, una de ellas está en la parte superior de la red donde los constructos de somatización, ansiedad por salud y estrés se encuentran más cencanos entre ellos, además de la presencia de interdependencia positiva entre los reactivos de esos mismos constructos. La agrupación que se encuentra en la parte inferior muestra más cercanía entre los constructos de ansiedad generalizada y distanciamiento. Los reactivos de evitación se encuentran más en el punto de interconexión entre el estrés y el distanciamiento. El reactivo ag22 parece ser más central en la red, que aunque está más cerca del estrés, es del grupo de ansiedad generalizada. Por otro, para esta red se observan más correlaciones negativas, por ejemplo entre los reactivos s29 - d13, una manera de interpretarlo sería que si comentas dolores o molestias con la familia, no necesariamente hay deseo de hacerse daño. Otro ejemplo es este los reactivos s28 y av6, si se lee sobre enfermedades físicas graves, no evitas remitirte a las fuentes oficiales. 
 
 \begin{figure}
 \centering
 \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{images/net_pcl5.pdf}
-    \caption{Red PCL5.}
+    \caption{Modeo a: red de los reactivos de estrés, evitación y distanciamiento. }
     \label{fig:netpcl5}
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.45\textwidth}
     \includegraphics[width=\textwidth]{images/net_dean.pdf}
-    \caption{Red DEAN.}
+    \caption{Modelo b: red de los reactivos de ansiedad generalizada y por salud, somatización y depresión.}
     \label{fig:netdean}
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.7\textwidth}
     \includegraphics[width=\textwidth]{images/net_todo.pdf}
-    \caption{Red de todos los reactivos.}
+    \caption{Modelo c: red de todos los reactivos.}
     \label{fig:nettodos}
 \end{subfigure}
-        
-\caption{Redes evaluadas.}
-\label{fig:figures}
+\caption{Modelos de redes.}
+\label{fig:nets}
 \end{figure}
 
+\newpage
+
+La figura \ref{fig:centradean} presenta las medidas de centralidad para los modelos a y b. Para este tipo de figura, los nodos están acomodados del acuerdo a los nodos que tiene más fuerza a lo que que tienen menor fuerza, de arriba hacia abajo. Para el panel b, el nodo con mayor fuerza es el st17 que habla de qué tan asustado se está por padecer la enfermedad, es decir este es un reactivo importante que conecta directamente con otros nodos, seguido de los reactivos st3 y di11. Como se había mencionado anteriormente, en el modelo a el reactivo st12 parece ser importante como reactivo que interconecta a varios reactivos, y de hecho tiene las medidas de betweenneess y closeness más altas. De los reactivos que tienen menor fuerza son los de evitación y el st8, que habla de culpa por si alguien se enferma. Otro reactivo importante a analizar es el di10, que tiene betweennes bajo pero closeness algo alto. Esto indica que su interconección muy cercana a otros nodos, pero no es un nodo que interconecte con más nodos más que con los que tiene cercanos, que son di9 y d11.
+
+En cuanto a las medidas de centralidad del modelo b se puede observar que el nodo con mayor fuerza es el as24 que se podría considerar un nodo importante en esa red. El nodo ag22, tiene las medidas de betweeness y closeness altas, de hecho dentro de la red es el nodo que conecta más entre las dos principales agrupaciones. Por otro lado el nodo as23, tiene closeness alto pero no betweeness lo cual tiene sentido pues es un nodo que está cercano a otros nodos importantes, pero no es único a la hora de interconectar con las otras agrupaciones. 
+
+La Figura \ref{fig:centra_todos}, muestra las medidas de centralidad para el modelo c, que es el que tiene todos los reactivos. En esta red se observa que el nodo st17, que habla de estar asustado a padecer esta enfermedad, es de los que más fuerza tienen, además de que las medidas de betweenness y closeness tambien tiene sus valores muy altos. Le siguen los reactivos st3 y de32, siendo este último referente al constructo de depresión y habla de sentirse decaído o deprimido. Esto es relevante, pues es un reactivo que parece ser muy importante en el presente modelo, relevancia que no tenía en el modelo b. De la misma manera, el nodo de ag22 tiene las medidas de betweenness y closeness altas. Existen varios nodos que parecen no ser importantes en la red, y se refieren en el constructo de evitación, así como otros reactivos de otros constructos. 
+
+\begin{figure}[ht!]
+\centering
+\begin{subfigure}{0.6\textwidth}
+    \includegraphics[width=\textwidth]{images/centrality_net_pcl5.pdf}
+    \caption{Medidas de centralidad para el modelo a.}
+    \label{fig:centrapcl5}
+\end{subfigure}
+\vfill
+\begin{subfigure}{0.6\textwidth}
+    \includegraphics[width=\textwidth]{images/centrality_net_dean.pdf}
+    \caption{Modelo b.}
+    \label{fig:centradean}
+\end{subfigure}
+\caption{Medidas de centralidad para modelo a y b.}
+\label{fig:centra_ab}
+\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[scale=0.8]{images/centrality_net_todo.pdf}
+\caption{Medidas de centralidad el modelo c.}
+\label{fig:centra_todos}
+\end{figure}
+
+\clearpage
+
+\newpage
+
+\subsection{Precisión de pesos y estabilidad de medidas de centralidad}
+
+Como se había comentado en la sección anterior es importante verificar tanto la precisión de los pesos de las aristas de cada modelo, así como la estabilidad de las medidas de centralidad. 
+
+La Figura \ref{fig:intervalos} muestra los intervalos de confianza con bootstrap para los pesos de las aristas de los tres modelos. De manera general, en los tres gráficos se muestra que los intervalos son muy angostos para cada peso, además de que los valores de cada arista están muy separadas una de otra. Recordemos que en el eje x están las aristas de mayor a menor peso, de arriba hacia abajo, por lo que tendremos tantos puntos como interconexiones estadísticamente relevantes dentro de la red. Por ejemplo, en el panel el primer punto de la parte superior se encuentra la conexión más fuerte de la red, que parece ser entre los nodos st3 y s17, siendo un proceso similar para los otros dos modelos. Esto parece indicar que para los tres modelos, en las conexiones más fuertes, podemos tener confianza de que los pesos de las aristas se pueden acercar al valor verdadero de esos pesos, por lo que se podrían considerar modelos estadísticos relevantes a tomar en cuenta.
+
+La Figura \ref{fig:estabilidad} muestra la estabilidad de las medidas de centralidad con diferentes tamaños de muestra para los tres modelos. Para los tres modelos se observa que la estabilidad en general es buena, pues no cambian mucho conforme se reduce el tamaño de muestra. El único detalle es que la medida de betweenness se encuentra un poco más abajo que las otras medidas, sobre todo para el modelo b y un poco para el modelo c. Esto indica que estas medidas no cambian tanto, por lo que podemos confiar en los valores ya mostrados en la sección anterior. 
+
+Por último, la Figura \red{fig:sintodo} muestra un gráfico de diferencias significativas para la medida de fuerza de nodo para el modelo c. En esta se observa una gran presencia de negro entre los nodos, que indica que en general la fuerza de los nodos son diferentes unos de otros. Por ejemplo, si observamos el nodo st17 tiene una fuerza de nodo estadísticamente diferente a todos los otros nodos. Otro ejemplo, en la celda entre el nodo st12 y ag20, hay presencia de gris, por lo que estos nodos no son estadísticamente diferentes uno de otro. 
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale=0.7]{images/centrality_net_todo.pdf}
-\caption{Medidas de centralidad del todo}
+\begin{subfigure}{0.49\textwidth}
+    \includegraphics[width=\textwidth]{images/interval_pcl15.pdf}
+    \caption{Intervalos de confianza para modelo a. }
+    \label{fig:interval_pcl5}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+    \includegraphics[width=\textwidth]{images/interval_dean.pdf}
+  \caption{Intervalos de confianza para el modelo b. }
+  \label{fig:interval_dean}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.6\textwidth}
+    \includegraphics[width=\textwidth]{images/interval_todos.pdf}
+    \caption{Intervalos de confianza para el modelo c.}
+    \label{fig:interval_todo}
+\end{subfigure}
+\caption{Intervalos de Confianza de los modelos de redes.}
+\label{fig:intervalos}
 \end{figure}
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale=0.7]{images/centrality_net_pcl5.pdf}
-\caption{Medidas de centralidad del pcl5}
-\label{fig:centra_pcl5}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.7]{images/centrality_net_dean.pdf}
-\caption{Medidas de centralidad del dean}
-\label{fig:centra_dean}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/interval_todos.pdf}
-\caption{Interval red todo}
-\label{fig:interval_todo}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/interval_pcl15.pdf}
-\caption{Interval red pcl5}
-\label{fig:interval_pcl5}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/interval_dean.pdf}
-\caption{Interval red dean}
-\label{fig:interval_dean}
-\end{figure}
-
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/estability_todo.pdf}
-\caption{Estabilidad red todo}
-\label{fig:estabilidad_todo}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/estability_dean.pdf}
-\caption{Estabilidad red dean}
-\label{fig:estabilidad_dean}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[scale=0.5]{images/estability_pcl5.pdf}
-\caption{Estabilidad red pcl5}
+\begin{subfigure}{0.49\textwidth}
+    \includegraphics[width=\textwidth]{images/estability_pcl5.pdf}
+\caption{Estabilidad de modelo a. }
 \label{fig:estabilidad_pcl5}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+    \includegraphics[width=\textwidth]{images/estability_dean.pdf}
+\caption{Estabilidad de modelo b.}
+\label{fig:estabilidad_dean}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.6\textwidth}
+    \includegraphics[width=\textwidth]{images/estability_todo.pdf}
+    \caption{Estabilidad de modelo c.}
+    \label{fig:estabilidad_todo}
+\end{subfigure}
+\caption{Estabilidad de las medidas de centralidad para los tres modelos.}
+\label{fig:estabilidad}
 \end{figure}
+
 
 \begin{figure}[ht]
 \centering
 \includegraphics[scale=0.5]{images/signif_2i_todo.pdf}
-\caption{Significancia}
+\caption{Test de diferencias significativas entre los nodos del modelo c.}
 \label{fig:sintodo}
 \end{figure}
 
+\clearpage
+
+\subsection{Conclusiones}
+
+El presente análisis es un preámbulo que muestra la riqueza que adhiere el análisis de redes a la interpretación de resultados de la base de riesgos de enfermedades mentales a partir del Covid-19. Se dice que es preámbulo porque en el presenta análisis solo se adecuó el análisis de redes a la base de datos del tamizaje para crear un modelo base y explorar la implementación de este análisis con la presente base. Los siguientes pasos son plantear diferentes modelos de redes en función de otras variables, como si los usuarios que contestaron el cuestionario, tuvieron o no covid, o si gente cercana a ellos la tuvieron. También, corresponde comparar estos resultados con los resultados que se han obtenido con los análisis que generalmente se les hace a este tipo de datos. Algo como lo que menciona \cite{haslbeck2017predictable} 
+
+Esto para ver cómo se estructura un sistema donde los síntomas están interactuando y ver cuáles son las posibles relaciones causales que pueden constituir a un desorden mental. Así mismo ver la presencia de comorbilidad de síntomas entre constructos, y ver cuáles son los síntomas que sirven de puente entre los diferentes desórdenes, como lo menciona \cite{fried2017mental}
+
+% ##########  NOTAS DE ARTICULOSSS
+% 
+% Mental disorder as networks of problems.
+% 
+% 
+% Conceptualización de redes en psicopatología. 
+% 
+% Un desorden metal se puede ver como un sistema de síntomas interactuando. Desde esta perspectiva, hay un juego causal entre los síntomas que constituyen al desorden mental. Por ejemplo, Desorden de Depresión Mayor, los síntomas son: tristesa, anhedonia, fatiga, insomio, problemas de concentración e ideación suicida. A partir de estos síntomas se puede n ver relaciones causales entre los problemas, por ejemplo: fatiga -> insomio -> problemas de concentración o tritesa -> anhedonia -> ideas suicidas. 
+% 
+% Comorbilidad
+% 
+% Es común que existan al mismo tiempo, múltiples desordenes mentales. Tradicionalmente, la comorbilidad de desórdenes mentales se entienden como diferentes desórdenes, mientras que la perspectiva de redes tiene de hipótesis que éstos ocurren debido a una interacicón entre síntomas. En este sentido, comorbilidad se da cuando hay un puente entre dos síntomas que vienen de diferentes desórdenes. 
+% 
+% Una implicación del punto de vista de redes es que los diagnósticos pueden co-ocurrir como una función del número de síntomas compartidos. Esta implicación no se comparte necesariamente desde el punto de vista tradiicional. 
+% 
+% Ver los desórdenes a un nivel más a partir de síntomas, revelaría un poco del mecanismo de comorbilidad. 
+% 
+% Predicción
+% 
+% Una de las áreas más importantes de investigación clínica es la predicción de psicopatologías desde el comienzo para así, desarrollar intervenciones clínicas tempranas. Por lo que la literatura en predicción se enfoca en dos aspectos 1) las llamadas señales de alerta temprana que pueden indicar la próxima aparición de psicopatología para un paciente específico, y 2) las características de redes a nivel grupal que pueden ayudar a predecir el curso futuro de la psicopatología. 
+% 
+% 
+% 
+% Señales de alerta temprana
+% 
+% Existen áreas en ciencias en los cuáles sistemas complejos se pueden comprender-estudiar adecuadamente. Uno de las características más importantes de sistemas complejos es que se pueden mostrar fases de transiciones. Lo interesantes es que justo andes de una fase de transición de un estado a otro, y sistema despliega señales de alerta temprana. Específicamente, dichas transiciones se preceden por un fenómeno referido como alentamiento crítico, que significa que le lleva más tiempo a us sistema a recuperarse de perturbaciones. Esto se refleja por el hecho de que los sistemas se hacen más predecibles por sus estados previos: cuando se acercan a una transición, la dinámica se alenta. 
+% 
+% 
+% 
+% Centralidad
+% 
+% 
+% El número de conexiones que tiene un nodo (síntoma). Si tienes un síntoma que tiene más conexiones entonces hay más posibilidades de que eso desarrolle otros síntomas, pero si desarrollas un nodo más periférico no será tan grande la posibilidad. El grado de centralidad se puede entender cómo la cuantificación de la importancia de un nodo en una red. Otras medidas son closeness and betweenness. 
+% 
+% 
+% ###########
+% 
+% How predictable are symptoms in psychopathological networks? 
+% 
+% 
+% La previsibilidad es el grado en el cual un nodo dado puede ser predicho por los demás nodos en la red. 
+% 
+% ############
+% 
+% Latent Variable Models and Networks:
+% 
+% Comparación entre modelos, aunque nada quedó realmente definido, está interesante el artículo porque ven la equivalencia entre los modelos, además, expresan la dificultad de hacer comparaciones entre éstos debido a que sus predicciones no se pueden comparar. Lo leí sólo por encima y sólo la discusión, merece una revisada a detalle.
 
 
-
-\newpage
-
-
+\clearpage
 \bibliography{bibtex}
 
 \end{document}
