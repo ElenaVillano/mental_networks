@@ -14,4 +14,10 @@ The most recent update in this project is in the following document: [report](ht
 - Reports are in `documentation/`.
 
 
+Just a little example on one created network: 
+
+
 ![example](documentation/images/example.png)
+
+
+:)
