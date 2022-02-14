@@ -14,4 +14,4 @@ The most recent update in this project is in the following document: [report](ht
 - Reports are in `documentation/`.
 
 
-![Red psicológica](documentation/images/net_todo.pdf)
+![Red psicológica](https://github.com/ElenaVillano/mental_networks/blob/main/documentation/images/net_todo.pdf)
