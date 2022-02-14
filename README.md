@@ -10,7 +10,6 @@ The most recent update in this project is in the following document: [report](ht
 
 - Code to run the analysis is in `Rcode/`.
 - Used references in `references/`.
-- Available data `data/`.
 - Reports are in `documentation/`.
 
 
