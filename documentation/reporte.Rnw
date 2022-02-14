@@ -47,7 +47,7 @@
 
 %%%%%% Main Text %%%%%%
 
-El presente documento tiene los avances realizados en el proyecto de {\bf Análisis de Redes como alternativa de análisis para estudiar psicopatologías}\footnote{Todo el código e información asociada a este proyecto se encuentra en el siguiente repositorio: \url{https://github.com/ElenaVillano/mental_networks}} y tiene como base principal el tutorial de \cite{main_tutorial}. En la primera parte del documento hablaremos de los conceptos básicos para entender el análisis de redes, así como de la descripción de los gráficos principales para estudiar las características de las redes. En la segunda parte, presentaremos algunos resultados obtenidos de la base de datos del Tamizaje para la detección de riesgos a la Salud Mental por Covid-19. 
+El presente documento tiene los avances realizados en el proyecto de {\bf Análisis de Redes como alternativa de análisis para estudiar psicopatologías}\footnote{Todo el código e información asociada a este proyecto se encuentra en el siguiente repositorio: \url{https://github.com/ElenaVillano/mental_networks}} y tiene como base principal el tutorial de \cite{main_tutorial} y sus materiales adicionales \citep{epskamp2018estimating}. En la primera parte del documento hablaremos de los conceptos básicos para entender el análisis de redes, así como de la descripción de los gráficos principales para estudiar las características de las redes. En la segunda parte, presentaremos algunos resultados obtenidos de la base de datos del Tamizaje para la detección de riesgos a la Salud Mental por Covid-19 \citep{morales2021mental, chaine2020condiciones}. 
 
 
 \section{Conceptos básicos para entender el análisis de redes}
@@ -65,7 +65,7 @@ A grandes rasgos, el análisis de redes psicológicas tiene dos pasos involucrad
 
 De manera específica, en las redes psicológicas {\bf los nodos representan las variables observadas y las aristas representan coeficientes de correlación parcial entre variables (i.e. pesos de las aristas), condicionadas sobre las otras variables observadas}. 
 
-En toda red estimada, se tiene que valorar la importancia o conectividad de los nodos dentro de la red, para lo que se computan las medidas de centralidad que son: 
+En toda red estimada, se tiene que valorar la importancia o conectividad de los nodos dentro de la red, para lo que se computan las medidas de centralidad \citep{felipe} que son: 
 
 \begin{description}
   \item[Fuerza del nodo:] que tan bien el nodo esta {\bf directamente} conectado con otros nodos. Una manera de interpretarlo, es que tan importante es el nodo dentro de la red conectando directamente con otros nodos. 
@@ -98,7 +98,7 @@ Un modelo de redes que se usa popularmente para estimar redes psicológicas es u
 
 Cuando los datos son binarios, el modelo PRMF a utilizar es el modelo Ising. Mientras que si los datos siguen una densidad normal multivariada, el modelo apropiado de PRMF es el modelo gráfico gausiano (GGM), en el que las aritas pueden ser directamente interpretadas como coeficientes de correlación parcial. El GGM requiere un estimado de la matriz de covarianza como entrada, que en caso de que los datos sean ordinales se pueden utilizar correlaciones policóricas (i.e. correlación para variables ordinales de variables latentes).
 
-El modelo PMRF tiene el problema de que el número de parámetros a estimar crece mucho con el tamaño de la red y en generalmente en el área de psicología no se tienen tantos datos que compensen esta sobre-estimación. Para tratar dicho problema se utiliza la forma de regularización de LASSO (Least Absolute Shrinkage and Selection Operator), técnica penaliza el uso de muchos parámetros, limitando la suma de valores paramétricos absolutos. Por lo que LASSO regresa un modelo de red más conservador, que en otras palabras, sólo un pequeño número de aristas se utilizan para explicar la covariación de la estructura en los datos\footnote{El paquete de \texttt{qgraph} utiliza lasso en combinación con la selección de modelos EBIC para estimar un GGM regularizado.}. 
+El modelo PMRF tiene el problema de que el número de parámetros a estimar crece mucho con el tamaño de la red y en generalmente en el área de psicología no se tienen tantos datos que compensen esta sobre-estimación. Para tratar dicho problema se utiliza la forma de regularización de LASSO (Least Absolute Shrinkage and Selection Operator), técnica penaliza el uso de muchos parámetros, limitando la suma de valores paramétricos absolutos. Por lo que LASSO regresa un modelo de red más conservador, que en otras palabras, sólo un pequeño número de aristas se utilizan para explicar la covariación de la estructura en los datos\footnote{El paquete de \texttt{qgraph} \citep{packageqgraph, bootnet} utiliza lasso en combinación con la selección de modelos EBIC para estimar un GGM regularizado.}. 
 
 
 \subsection{Precisión de los pesos de las aristas}
@@ -297,7 +297,57 @@ Por último, la Figura \red{fig:sintodo} muestra un gráfico de diferencias sign
 
 \subsection{Conclusiones}
 
-El presente análisis es un preámbulo que muestra la riqueza que adhiere el análisis de redes a la interpretación de resultados de la base de riesgos de enfermedades mentales a partir del Covid-19. Se dice que es preámbulo porque en el presenta análisis solo se adecuó el análisis de redes a la base de datos del tamizaje para crear un modelo base y explorar la implementación de este análisis con la presente base. Los siguientes pasos son plantear diferentes modelos de redes en función de otras variables, como si los usuarios que contestaron el cuestionario, tuvieron o no covid, o si gente cercana a ellos la tuvieron. También, corresponde comparar estos resultados con los resultados que se han obtenido con los análisis que generalmente se les hace a este tipo de datos. 
+El presente análisis es un preámbulo que muestra la riqueza que adhiere el análisis de redes a la interpretación de resultados de la base de riesgos de enfermedades mentales a partir del Covid-19. Se dice que es preámbulo porque en el presenta análisis solo se adecuó el análisis de redes a la base de datos del tamizaje para crear un modelo base y explorar la implementación de este análisis con la presente base. Los siguientes pasos son plantear diferentes modelos de redes en función de otras variables, como si los usuarios que contestaron el cuestionario, tuvieron o no covid, o si gente cercana a ellos la tuvieron. También, corresponde comparar estos resultados con los resultados que se han obtenido con los análisis que generalmente se les hace a este tipo de datos. Algo como lo que menciona \cite{haslbeck2017predictable} 
+
+Esto para ver cómo se estructura un sistema donde los síntomas están interactuando y ver cuáles son las posibles relaciones causales que pueden constituir a un desorden mental. Así mismo ver la presencia de comorbilidad de síntomas entre constructos, y ver cuáles son los síntomas que sirven de puente entre los diferentes desórdenes, como lo menciona \cite{fried2017mental}
+
+% ##########  NOTAS DE ARTICULOSSS
+% 
+% Mental disorder as networks of problems.
+% 
+% 
+% Conceptualización de redes en psicopatología. 
+% 
+% Un desorden metal se puede ver como un sistema de síntomas interactuando. Desde esta perspectiva, hay un juego causal entre los síntomas que constituyen al desorden mental. Por ejemplo, Desorden de Depresión Mayor, los síntomas son: tristesa, anhedonia, fatiga, insomio, problemas de concentración e ideación suicida. A partir de estos síntomas se puede n ver relaciones causales entre los problemas, por ejemplo: fatiga -> insomio -> problemas de concentración o tritesa -> anhedonia -> ideas suicidas. 
+% 
+% Comorbilidad
+% 
+% Es común que existan al mismo tiempo, múltiples desordenes mentales. Tradicionalmente, la comorbilidad de desórdenes mentales se entienden como diferentes desórdenes, mientras que la perspectiva de redes tiene de hipótesis que éstos ocurren debido a una interacicón entre síntomas. En este sentido, comorbilidad se da cuando hay un puente entre dos síntomas que vienen de diferentes desórdenes. 
+% 
+% Una implicación del punto de vista de redes es que los diagnósticos pueden co-ocurrir como una función del número de síntomas compartidos. Esta implicación no se comparte necesariamente desde el punto de vista tradiicional. 
+% 
+% Ver los desórdenes a un nivel más a partir de síntomas, revelaría un poco del mecanismo de comorbilidad. 
+% 
+% Predicción
+% 
+% Una de las áreas más importantes de investigación clínica es la predicción de psicopatologías desde el comienzo para así, desarrollar intervenciones clínicas tempranas. Por lo que la literatura en predicción se enfoca en dos aspectos 1) las llamadas señales de alerta temprana que pueden indicar la próxima aparición de psicopatología para un paciente específico, y 2) las características de redes a nivel grupal que pueden ayudar a predecir el curso futuro de la psicopatología. 
+% 
+% 
+% 
+% Señales de alerta temprana
+% 
+% Existen áreas en ciencias en los cuáles sistemas complejos se pueden comprender-estudiar adecuadamente. Uno de las características más importantes de sistemas complejos es que se pueden mostrar fases de transiciones. Lo interesantes es que justo andes de una fase de transición de un estado a otro, y sistema despliega señales de alerta temprana. Específicamente, dichas transiciones se preceden por un fenómeno referido como alentamiento crítico, que significa que le lleva más tiempo a us sistema a recuperarse de perturbaciones. Esto se refleja por el hecho de que los sistemas se hacen más predecibles por sus estados previos: cuando se acercan a una transición, la dinámica se alenta. 
+% 
+% 
+% 
+% Centralidad
+% 
+% 
+% El número de conexiones que tiene un nodo (síntoma). Si tienes un síntoma que tiene más conexiones entonces hay más posibilidades de que eso desarrolle otros síntomas, pero si desarrollas un nodo más periférico no será tan grande la posibilidad. El grado de centralidad se puede entender cómo la cuantificación de la importancia de un nodo en una red. Otras medidas son closeness and betweenness. 
+% 
+% 
+% ###########
+% 
+% How predictable are symptoms in psychopathological networks? 
+% 
+% 
+% La previsibilidad es el grado en el cual un nodo dado puede ser predicho por los demás nodos en la red. 
+% 
+% ############
+% 
+% Latent Variable Models and Networks:
+% 
+% Comparación entre modelos, aunque nada quedó realmente definido, está interesante el artículo porque ven la equivalencia entre los modelos, además, expresan la dificultad de hacer comparaciones entre éstos debido a que sus predicciones no se pueden comparar. Lo leí sólo por encima y sólo la discusión, merece una revisada a detalle.
 
 
 \clearpage
