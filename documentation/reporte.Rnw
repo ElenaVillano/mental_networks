@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{amsmath}
+\usepackage[table,xcdraw]{xcolor}
 \usepackage[rightcaption]{sidecap}
 \usepackage[colorlinks = true,
             linkcolor = black,
@@ -139,10 +140,26 @@ El test de diferencias significativas, que también se hace con bootstrap, se ut
 
 \section{Resultados preliminares}
 
+En esta sección se hablará de tres modelos de redes que se crearon a partir del Tamizaje para la detección de riesgos a la Salud Mental por Covid-19, con 102,209 participantes. Para el presente análisis sólo se utilizaron preguntas referentes a síntomas de depresión, ansiedad, estrés, etc. Los reactivos que se utilizaron se basan en cuestionarios psicométricos como el PCL-5 que es para estrés postraumático, y el GAD-7 que es para ansiedad generalizada. Cada respuesta va de 0 al 10, donde cero es nada y 10 es extremo. A continuación una descripción breve de los reactivos:
 
-
-Los siguientes gráficos se presentan a partir de los datos obtenidos en el Tamizaje para la detección de riesgos a la Salud Mental por Covid-19. La base de datos actual, sólo utiliza las 32 preguntas relacionadas a los contructos de depresión, ansiedad y estrés. Se tienen un total de 102,209 participantes.
-
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|l|c|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+ID & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}Variable} & Constructo \\ \hline
+\begin{tabular}[c]{@{}c@{}}st1\\ st2\\ st3\\ st4\\ st8\\ st12\\ st17\end{tabular} & \begin{tabular}[c]{@{}l@{}}Pienso/imagino enfermar\\ Pesadillas sobre enfermar\\ Preocupación por mención enfermedad\\ Reacciones físicas al pensar en enfermar\\ Si alguien enferma es por mi culpa\\ Incertidumbre de futuro por enfermedad\\ Asustado por padecer enfermedad\end{tabular} & Estrés \\ \hline
+\begin{tabular}[c]{@{}c@{}}av5\\ av6\\ av7\end{tabular} & \begin{tabular}[c]{@{}l@{}}Evito pensar/hablar sobre enfermedad\\ Evito escuchar fuentes oficiales sobre enfermedad\\ Dificultad para recordar recomendaciones oficiales\end{tabular} & Evitación \\ \hline
+\begin{tabular}[c]{@{}c@{}}d9\\ d10\\ d11\\ d13\\ d14\\ d15\\ d16\end{tabular} & \begin{tabular}[c]{@{}l@{}}He perdido interés por actividades \\ Distante con personas que convivo \\ Dificultad de afecto por seres queridos\\ Deseo de hacerme daño\\ Dificultad para dormir o seguir dormido\\ Me siento enojado\\ Me cuesta trabajo poner atención\end{tabular} & Distanciamiento \\ \hline
+\begin{tabular}[c]{@{}c@{}}ag18\\ ag19\\ ag20\\ ag21\\ ag22\end{tabular} & \begin{tabular}[c]{@{}l@{}}Me siento ansioso/nervioso\\ Incapaz de controlar preocupaciones\\ Me siento inquieto\\ Dificultad para relajarme \\ Miedo de que algo terrible pueda pasar\end{tabular} & \begin{tabular}[c]{@{}c@{}}Ansiedad\\ Generalizada\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}as23\\ as24\\ as25\end{tabular} & \begin{tabular}[c]{@{}l@{}}Me encuentro preocupado por mi salud\\ Preocupado por dolores o molestias físicas\\ Me asusta tener una enfermedad física grave\end{tabular} & \begin{tabular}[c]{@{}c@{}}Ansiedad \\ por\\ salud\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}s26\\ s27\\ s28\\ s29\\ s30\end{tabular} & \begin{tabular}[c]{@{}l@{}}Creo padecer enfermedad sin confirmación\\ Me observo para ver qué siento en mi cuerpo\\ Leo sobre enfermedades físicas graves\\ Comento mis dolores/molestias a familiares\\ Me quedo en cama y otros como si enfermara\end{tabular} & Somatización \\ \hline
+\begin{tabular}[c]{@{}c@{}}d31\\ d32\end{tabular} & \begin{tabular}[c]{@{}l@{}}Siento poco interés de hacer cosas\\ Me siento decaído o deprimido o sin esperanzas\end{tabular} & Depresión \\ \hline
+\end{tabular}
+\end{table}
 
 \begin{figure}
 \centering
@@ -250,7 +267,6 @@ Los siguientes gráficos se presentan a partir de los datos obtenidos en el Tami
 \label{fig:sintodo}
 \end{figure}
 
-adsfhñoiadfsklñjadsfñkljañdslkfjsdñlkfdjñkladsjfdlñkjafkdlaj
 
 
 
