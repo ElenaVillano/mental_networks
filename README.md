@@ -14,4 +14,4 @@ The most recent update in this project is in the following document: [report](ht
 - Reports are in `documentation/`.
 
 
-![](documentation/images/net_todo.pdf)
+![Red psicológica](documentation/images/net_todo.pdf)
