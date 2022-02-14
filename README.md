@@ -12,3 +12,6 @@ The most recent update in this project is in the following document: [report](ht
 - Used references in `references/`.
 - Available data `data/`.
 - Reports are in `documentation/`.
+
+
+![](documentation/images/net_todo.pdf)
